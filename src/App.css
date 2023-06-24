@@ -1,0 +1,30 @@
+.hrfirat{
+  height: 200vh;
+  border: solid rgb(216, 217, 216) .5px;
+}
+.hr2{
+ margin-top: 25px;
+ width: 80vw;
+}
+.inst{
+  border: solid rgb(211, 210, 210) 2px;
+  height: 45px;
+  width: 250px;
+  padding: 5px;
+  border-radius: 10px;
+}
+.insta1{
+  border: solid rgb(211, 210, 210) 2px;
+  height: 45px;
+  width: 150px;
+  border-radius: 5px;
+}
+.tex{
+  color: white;
+}
+.bor{
+  border: solid gray 1px;
+  height: 30px;
+  width: 60px;
+  border-radius: 5px;
+}
