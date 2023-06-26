@@ -36,7 +36,7 @@ const PaymentGrievances = () => {
         pageSize: 5,
         current: currentPage,
         total: filteredData.length,
-        onchange: handlePageChange,
+        onChange: handlePageChange,
         showTotal: (total, range) =>
             <div className='w-full flex justify-center h-full'>
                 <span className='text-sm flex justify-center items-center h-full'>
@@ -219,8 +219,8 @@ const PaymentGrievances = () => {
         setSelectedRowKeys(newSelectedRowKeys)
     }
     const rowSelection = {
-        selectedRowKeys: ["1", "2"],
-        onchange: onSelectChange,
+        selectedRowKeys,
+        onChange: onSelectChange,
     }
 
     // getting filtered data using status
