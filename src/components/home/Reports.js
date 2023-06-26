@@ -1,6 +1,5 @@
 
-
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { SearchOutlined, ArrowDownOutlined, ArrowUpOutlined, CloseCircleFilled } from '@ant-design/icons';
 import { Divider, Input, Table, Checkbox, Menu, Dropdown, Typography, Space } from 'antd'
 import { PlusOutlined, DownOutlined } from '@ant-design/icons'
@@ -17,9 +16,10 @@ const Reports = () => {
     const [selectedOption, setSelectedOption] = useState('');
     const [open, setOpen] = useState(false);
     const [filterOptions, setFilterOptions] = useState([]);
-
-
+    const [filteredData, setFilteredData] = useState([]);
+    const [searchText, setSearchText] = useState("");
     const options = ['Shareholder 1', 'Shareholder 2', 'Shareholder 3'];
+
 
 
     const handleOptionClick = (option) => {
@@ -38,16 +38,16 @@ const Reports = () => {
 
 
 
-    const totalRecords = dataSource.length;
+    const totalRecords = filteredData.length;
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
-    const paginatedData = currentPage === 1 ? dataSource.slice(0, 5) : dataSource.slice(5, 8);
+    // const paginatedData = currentPage === 1 ? filteredData.slice(0, 5) : filteredData.slice(5, 8);
     const paginationConfig = {
         pageSize: pageSize,
         current: currentPage,
-        total: totalRecords,
+        total: filteredData.length,
         onChange: handlePageChange,
         showTotal: (total, range) =>
             <div className='w-full flex justify-center h-full'>
@@ -226,9 +226,23 @@ const Reports = () => {
             return data;
         } else {
             // Filter the dataSource array based on the filterOptions
-            return data.filter(item => filterOptions.includes(item.STATUS));
+            let filtered = data.filter(item => filterOptions.includes(item.STATUS));
+            // setFilteredData(filtered)
+            return filtered
         }
     }
+
+    useEffect(() => {
+
+        setFilteredData(
+            dataSource.filter((data) => {
+                return Object.values(data).some((value) =>
+                    value ? value.toString().toLowerCase().includes(searchText.toLowerCase()) : false
+                );
+            })
+        );
+    }, [searchText, filterOptions])
+
 
 
 
@@ -264,14 +278,14 @@ const Reports = () => {
                     <div className='flex w-full items-center justify-between'>
                         <div className='flex items-center w-full sm:w-auto rounded'>
                             <Input
+                                value={searchText}
+                                onChange={(e) => setSearchText(e.target.value)}
                                 placeholder='Search'
                                 className='h-10 md:h-12 px-4 outline-none rounded text-base md:text-xl w-full'
                                 prefix={<SearchOutlined className='text-gray-500 md:text-2xl cursor-pointer' style={{ marginRight: '8px' }} />}
                             />
                         </div>
                         <div className='flex relative items-center w-full sm:w-auto rounded'>
-
-
                             <Dropdown
                                 menu={{
                                     items,
@@ -286,7 +300,6 @@ const Reports = () => {
                                     suffix={<DownOutlined className='text-gray-600 md:text-base cursor-pointer' />}
                                 />
                             </Dropdown>
-
                         </div>
                     </div>
                     {/* tables */}
@@ -294,7 +307,7 @@ const Reports = () => {
                         <Table
                             rowSelection={rowSelection}
                             columns={columns}
-                            dataSource={filterOptions.length > 0 ? getFilteredData(dataSource) : paginatedData}
+                            dataSource={getFilteredData(filteredData)}
                             pagination={paginationConfig}
                         />
                     </div>
@@ -360,9 +373,6 @@ const Reports = () => {
                                         <input className='  text-sm md:text-base border-0 border-b border-light-gray w-full focus:outline-none focus:border-bg-blue' placeholder='Amount' style={{ paddingBottom: '10px' }} />
 
                                     </div>
-
-
-
                                     <div className='w-1/2 flex items-start flex-col gap-y-2'>
                                         <p className='text-text-color text-base'>Refunded amount</p>
                                         <div className='relative w-full cursor-default'>
