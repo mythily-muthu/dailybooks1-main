@@ -5,6 +5,7 @@ import { SearchOutlined, ArrowDownOutlined, ArrowUpOutlined, CloseCircleFilled }
 import { Divider, Input, Table, Checkbox, Menu, Dropdown, Typography, Space } from 'antd'
 import { PlusOutlined, DownOutlined } from '@ant-design/icons'
 import { Drawer, theme } from 'antd';
+import { dataSource } from '../../data/ReportData';
 const Reports = () => {
 
     const [showFilter, setShowFilter] = useState(false)
@@ -33,91 +34,10 @@ const Reports = () => {
         setOpen(false);
     };
     const pageSize = 5;
-    const dataSource = [
-        {
-            key: '1',
-            INVOICE: 'INV-3068',
-            DATE: "06 Sept 2022",
-            REPORTER: 'Maxim Cummings',
-            INCOME: '12,179.22',
-            COMPANY: 'Tcs',
-            STATUS: 'Cancel',
-            fontSize: 'text-xl'
-
-        },
-        {
-            key: '2',
-            INVOICE: 'INV-3067',
-            DATE: "16 Aug 2022",
-            REPORTER: 'Maxim Cummings',
-            INCOME: '12,179.22',
-            COMPANY: 'Thinroot',
-            STATUS: 'Pending',
-            fontSize: 'text-xl',
-        },
-        {
-            key: '3',
-            INVOICE: 'INV-3066',
-            DATE: "09 Sept 2022",
-            REPORTER: 'Kenneth Mcconnel',
-            INCOME: '12,179.22',
-            COMPANY: 'Oneux',
-            STATUS: 'Pending',
-            fontSize: 'text-xl',
-        },
-        {
-            key: '4',
-            INVOICE: 'INV-3065',
-            DATE: "09 Oct 2022",
-            REPORTER: 'Kenneth Mcconnel',
-            INCOME: '12,179.22',
-            COMPANY: 'Rippleforce',
-            STATUS: 'Paid',
-            fontSize: 'text-xl',
-        },
-        {
-            key: '5',
-            INVOICE: 'INV-3064',
-            DATE: "06 Sept 2022",
-            REPORTER: 'Maxim Cummings',
-            INCOME: '12,179.22',
-            COMPANY: 'Human',
-            STATUS: 'Cancel',
-            fontSize: 'text-xl',
-        },
-        {
-            key: '6',
-            INVOICE: 'INV-3063',
-            DATE: "09 Oct 2022",
-            REPORTER: 'Maxim Cummings',
-            INCOME: '12,179.22',
-            COMPANY: 'Moviewood',
-            STATUS: 'Paid',
-            fontSize: 'text-xl',
-        },
-        {
-            key: '7',
-            INVOICE: 'INV-3062',
-            DATE: "02 Nov 2022",
-            REPORTER: 'Kenneth Mcconnel',
-            INCOME: '12,179.22',
-            COMPANY: 'Tcs',
-            STATUS: 'Paid',
-            fontSize: 'text-xl',
-        },
-        {
-            key: '8',
-            INVOICE: 'INV-3061',
-            DATE: "08 Nov 2022",
-            REPORTER: 'Kenneth Mcconnel',
-            INCOME: '12,179.22',
-            COMPANY: 'Tcs',
-            STATUS: 'Paid',
-            fontSize: 'text-xl',
-        },
 
 
-    ];
+
+
     const totalRecords = dataSource.length;
 
     const handlePageChange = (page) => {
@@ -145,12 +65,11 @@ const Reports = () => {
             defaultSortOrder: 'descend',
             // sorter: true,
             sorter: (report1, report2) => {
-                return report1.INVOICE > report2.INVOICE
+                return report1.INVOICE.localeCompare(report2.INVOICE)
             },
             render: (text) => {
                 let fontSize = 'text-sm';
                 let fontColor = "text-primary"
-                // let fontWeight = "font-normal"
                 return <p className={`${fontSize}  ${fontColor}`}>{text}</p>
             }
         },
@@ -159,9 +78,8 @@ const Reports = () => {
             dataIndex: 'DATE',
             key: 'DATE',
             defaultSortOrder: 'descend',
-            sorter: (report1, report2) => {
-                return report1.DATE > report2.DATE
-            },
+
+            sorter: (a, b) => new Date(a.DATE) - new Date(b.DATE),
             render: (text) => {
                 let fontSize = 'text-sm';
                 return <p className={`${fontSize}`}>{text}</p>
@@ -301,6 +219,7 @@ const Reports = () => {
 
     ];
 
+    // get filtered data using status
     const getFilteredData = (data) => {
         if (filterOptions.length === 0) {
             // If no filter options are selected, return the original dataSource array
@@ -310,6 +229,8 @@ const Reports = () => {
             return data.filter(item => filterOptions.includes(item.STATUS));
         }
     }
+
+
 
 
     return (
