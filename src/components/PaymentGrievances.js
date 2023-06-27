@@ -1,11 +1,17 @@
-import { CloseCircleFilled, DownOutlined, DownloadOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons'
-import { Button, Checkbox, Divider, Drawer, Dropdown, Input, Table } from 'antd'
+import { CloseCircleFilled, DownOutlined, DownloadOutlined, EditOutlined, EyeOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons'
+import { Button, Checkbox, Divider, Drawer, Dropdown, Input, Menu, Select, Table } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { paymentData } from '../data/PaymentGrievancesData';
+import AddPayment from './payment/AddPayment';
+import EditPayment from './payment/EditPayment';
+import { Option } from 'antd/es/mentions';
+import ViewPayment from './payment/ViewPayment';
 
 const PaymentGrievances = () => {
 
     const [open, setOpen] = useState(false);
+    const [EditDrawerOpen, setEditDrawerOpen] = useState(false);
+    const [viewDrawerOpen, setViewDrawerOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1)
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
     const [isOpen, setIsOpen] = useState(false);
@@ -14,9 +20,9 @@ const PaymentGrievances = () => {
     const [selectedOption, setSelectedOption] = useState('');
     const [searchText, setSearchText] = useState("")
     const [filteredData, setFilteredData] = useState([])
-    const [filterOptions, setFilterOptions] = useState([])
-    const options = ['select', 'INR', 'USD', 'CAD'];
-    const statusOptions = ["select", "Paid", "Pending", "Cancelled"]
+    const [filterOptions, setFilterOptions] = useState([]);
+    const [selectedRowDetails, setSelectedRowDetails] = useState({});
+    const statusOptions = ["select", "Paid", "Pending", "Cancelled"];
 
     const handleOptionClick = (option) => {
         setSelectedOption(option);
@@ -59,7 +65,7 @@ const PaymentGrievances = () => {
             setFilterOptions(updatedOptions);
         }
     }
-
+    console.log(viewDrawerOpen)
     const items = [
         {
             key: 'paid',
@@ -201,21 +207,49 @@ const PaymentGrievances = () => {
             title: <p className="font-medium uppercase">Action</p>,
             dataIndex: 'action',
             key: 'action',
-            render: (text) => {
-                let fontSize = 'text-sm';
-                let fontColor = "text-primary"
-                return <p className={`${fontSize}  ${fontColor}`}>{text}</p>
+            sorter: true,
+            render: (_, record) => {
+                return <Dropdown overlay={renderMenu(record)} trigger={["click"]}>
+                    <div className='flex items-center gap-x-3 cursor-pointer'>
+                        <p className={`text-sm  text-primary`} onClick={e => e.preventDefault()}>
+                            View
+                        </p>
+                        <DownOutlined />
+                    </div>
+                </Dropdown>
             }
         }
-    ]
+    ];
+    const handleEditAction = (record) => {
+        console.log("inedit")
+        setEditDrawerOpen(true);
+        setSelectedRowDetails(record);
+    }
+    const handleViewAction = (record) => {
+        console.log("inview")
+        setViewDrawerOpen(true);
+        setSelectedRowDetails(record)
+    }
+    const renderMenu = (record) => {
+        console.log(record)
+        return <Menu>
+            <Menu.Item key="edit" onClick={() => handleEditAction(record)} icon={<EditOutlined />}>
+                Edit
+            </Menu.Item>
+            <Menu.Item key="view" onClick={() => handleViewAction(record)} icon={<EyeOutlined />} >
+                View
+            </Menu.Item>
+        </Menu>
+    }
+
+
+
+
     const showDrawer = () => {
         setOpen(true);
     };
-    const onClose = () => {
-        setOpen(false);
-    };
+
     const onSelectChange = (newSelectedRowKeys) => {
-        console.log(newSelectedRowKeys)
         setSelectedRowKeys(newSelectedRowKeys)
     }
     const rowSelection = {
@@ -311,149 +345,36 @@ const PaymentGrievances = () => {
 
 
             </div>
-            <Drawer
-                maskClosable={false}
-                placement="right"
-                closable={false}
-                onClose={onClose}
+            <AddPayment
                 open={open}
-                getContainer={false}
-                width="65%"
-            >
+                setOpen={setOpen}
+                handleOptionClick={handleOptionClick}
+                handleStatusClick={handleStatusClick}
+                statusOpen={{ val: isStatusOpen, set: setStatusIsOpen }}
+                isOpen={{ val: isOpen, set: setIsOpen }}
+                statusOptions={statusOptions}
+                selectedStatusOption={{ val: selectedStatusOption, set: setSelectedOption }}
+                selectedOption={{ val: selectedOption, set: setSelectedOption }}
+            />
+            <EditPayment
+                open={EditDrawerOpen}
+                setOpen={setEditDrawerOpen}
+                selectedRowDetails={{ val: selectedRowDetails, set: setSelectedRowDetails }}
+                selectedOption={{ val: selectedOption, set: setSelectedOption }}
+                handleOptionClick={handleOptionClick}
+                handleStatusClick={handleStatusClick}
+                statusOpen={{ val: isStatusOpen, set: setStatusIsOpen }}
+                isOpen={{ val: isOpen, set: setIsOpen }}
+                statusOptions={statusOptions}
+                selectedStatusOption={{ val: selectedStatusOption, set: setSelectedOption }}
 
-                <div className='w-full h-full flex'>
-                    <CloseCircleFilled type='primary' className={`text-4xl text-white absolute top-[50%] -left-[45px]`} onClick={() => setOpen(false)} />
-                    {/* edit page */}
-                    <div className='w-full flex overflow-auto p-5 gap-x-5 '>
-                        {/* left */}
-                        <div className='flex flex-col lg:w-1/3 sm:w-2/5 w-full border border-border-color h-screen p-5 gap-y-5'>
-                            <div className='flex flex-col w-full items-start gap-y-5'>
-                                <h1 className='flex items-start  text-primary text-base font-bold w-full'>Add Payment Grievances</h1>
-                                <div className='flex flex-col items-start gap-y-2 w-full'>
-                                    <p className='text-text-light text-base font-medium'>Reason</p>
-                                    <input className=' text-sm border-0 border-b border-light-gray w-full focus:outline-none focus:border-bg-blue' placeholder='reason' style={{ paddingBottom: '10px' }} />
-                                </div>
-                            </div>
-                            <div className='flex w-[90%] flex-col gap-y-5'>
-                                <p className='flex text-text-light items-start text-base font-medium'>Invoice (Optional)</p>
-                                <div className='flex w-full  gap-x-3 items-center '>
-                                    <div className='w-full border border-dashed border-blue-600 flex md:flex-row sm:flex-col  items-center justify-between py-2 px-1 text-blue-600'>
+            />
 
-                                        <div className='whitespace-nowrap'>No File Chosen</div>
-                                        <div className='flex '>
-                                            <label htmlFor="fileInput" className='bg-bg-blue text-white whitespace-nowrap text-xs md:text-justify py-1 px-[6px] rounded-sm text-[12px] cursor-default'>
-                                                Browse File
-                                                <Input
-                                                    id="fileInput"
-                                                    type="file"
-                                                    className="hidden"
-                                                />
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div className=''>
-                                        <DownloadOutlined className='text-2xl' />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {/* right */}
-                        <div className='  w-full flex flex-col gap-y-3'>
-                            {/* buttons */}
-                            <div className='flex justify-end gap-x-2'>
-                                <button className='bg-gray-200  px-3 py-1 rounded-sm'>
-                                    <span className='text-text-gray font-semibold'>Cancel</span>
-                                </button>
-
-                                <button className='bg-bg-blue  px-3 py-1 rounded-sm' >
-                                    <span className='text-white'>Save</span>
-                                </button>
-                            </div>
-                            <div className='flex w-full gap-x-10'>
-                                <div className='w-1/3  flex items-start flex-col gap-y-2'>
-                                    <p className='text-text-color text-base'>Refunded Amount</p>
-                                    <input className=' text-sm md:text-base border-0 border-b border-light-gray w-full focus:outline-none focus:border-bg-blue' placeholder='Amount' style={{ paddingBottom: '10px' }} />
-
-                                </div>
-                                <div className='w-1/2 flex items-start flex-col gap-y-2'>
-                                    <p className='text-text-color text-base'>Currency</p>
-                                    <div className='relative w-full cursor-default'>
-                                        <input
-                                            className='w-full text-sm md:text-base cursor-default text-gray-400 border-0 border-b border-light-gray  focus:outline-none focus:border-bg-blue pr-8'
-                                            placeholder='select'
-                                            style={{ paddingBottom: '10px' }}
-                                            onClick={() => setIsOpen(!isOpen)}
-                                            value={selectedOption}
-                                            readOnly
-                                        />
-                                        <div className='absolute right-0 top-0 bottom-0 flex items-center pointer-events-none'>
-                                            <DownOutlined className='text-gray-400' />
-                                        </div>
-                                        {isOpen && (
-                                            <div className='absolute w-full mt-1 bg-white border border-black shadow-lg'>
-                                                {options.map((option, index) => (
-                                                    <div
-                                                        key={index}
-                                                        className='px-1 flex items-start cursor-pointer text-gray-400 hover:bg-blue-500 hover:text-white'
-                                                        onClick={() => handleOptionClick(option)}
-                                                    >
-                                                        {option}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                                <div className='w-1/3  flex items-start flex-col gap-y-2'>
-                                    <p className='text-text-color text-base'>Issue</p>
-                                    <input className=' text-sm md:text-base border-0 border-b border-light-gray w-full focus:outline-none focus:border-bg-blue' placeholder='Issue' style={{ paddingBottom: '10px' }} />
-
-                                </div>
-
-                            </div>
-                            <div className='flex flex-col w-full '>
-                                <h1 className=' text-primary text-lg font-bold w-full flex items-start py-5'>Client</h1>
-                                <div className='w-full  flex items-start flex-col gap-y-2'>
-                                    <p className='text-text-color text-base'>Customer</p>
-                                    <input className=' text-sm md:text-base border-0 border-b border-light-gray w-full focus:outline-none focus:border-bg-blue' placeholder="customer's name" style={{ paddingBottom: '10px' }} />
-
-                                </div>
-
-                            </div>
-                            <div className='w-1/2 flex items-start flex-col gap-y-2'>
-                                <p className='text-text-color text-base py-2'>Description</p>
-                                <p className='text-text-color text-base pt-6'>Status</p>
-                                <div className='relative w-full cursor-default'>
-                                    <input
-                                        className='w-full text-sm md:text-base cursor-default text-gray-400 border-0 border-b border-light-gray  focus:outline-none focus:border-bg-blue pr-8'
-                                        placeholder='select'
-                                        style={{ paddingBottom: '10px' }}
-                                        onClick={() => setStatusIsOpen(!isOpen)}
-                                        value={selectedStatusOption}
-                                        readOnly
-                                    />
-                                    <div className='absolute right-0 top-0 bottom-0 flex items-center pointer-events-none'>
-                                        <DownOutlined className='text-gray-400' />
-                                    </div>
-                                    {isStatusOpen && (
-                                        <div className='absolute w-full mt-1 bg-white border border-black shadow-lg'>
-                                            {statusOptions.map((statusOption, index) => (
-                                                <div
-                                                    key={index}
-                                                    className='px-1 flex items-start cursor-pointer text-gray-400 hover:bg-blue-500 hover:text-white'
-                                                    onClick={() => handleStatusClick(statusOption)}
-                                                >
-                                                    {statusOption}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </Drawer>
+            <ViewPayment
+                open={viewDrawerOpen}
+                setOpen={setViewDrawerOpen}
+                selectedRowDetails={{ val: selectedRowDetails, set: setSelectedRowDetails }}
+            />
         </div>
     )
 }

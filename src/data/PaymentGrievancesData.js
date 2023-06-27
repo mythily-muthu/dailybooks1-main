@@ -12,12 +12,6 @@ export const paymentData = [
         currency_type: 'USD',
         description: 'Description 1',
         status: 'Pending',
-        action: (
-            <Select defaultValue="View" style={{ width: 120 }}>
-                <Option value="Edit">Edit</Option>
-                <Option value="View">View</Option>
-            </Select>
-        ),
         fontSize: 'text-xl',
     },
     {
@@ -30,12 +24,6 @@ export const paymentData = [
         currency_type: 'EUR',
         description: 'Description 2',
         status: 'Paid',
-        action: (
-            <Select defaultValue="View" style={{ width: 120 }}>
-                <Option value="Edit">Edit</Option>
-                <Option value="View">View</Option>
-            </Select>
-        ),
         fontSize: 'text-xl',
     },
     {
@@ -48,12 +36,6 @@ export const paymentData = [
         currency_type: 'GBP',
         description: 'Description 3',
         status: 'Cancelled',
-        action: (
-            <Select defaultValue="View" style={{ width: 120 }}>
-                <Option value="Edit">Edit</Option>
-                <Option value="View">View</Option>
-            </Select>
-        ),
         fontSize: 'text-xl',
     },
     {
@@ -66,12 +48,6 @@ export const paymentData = [
         currency_type: 'USD',
         description: 'Description 4',
         status: 'Pending',
-        action: (
-            <Select defaultValue="View" style={{ width: 120 }}>
-                <Option value="Edit">Edit</Option>
-                <Option value="View">View</Option>
-            </Select>
-        ),
         fontSize: 'text-xl',
     },
     {
@@ -84,12 +60,6 @@ export const paymentData = [
         currency_type: 'CAD',
         description: 'Description 5',
         status: 'Paid',
-        action: (
-            <Select defaultValue="View" style={{ width: 120 }}>
-                <Option value="Edit">Edit</Option>
-                <Option value="View">View</Option>
-            </Select>
-        ),
         fontSize: 'text-xl',
     },
     {
@@ -102,12 +72,6 @@ export const paymentData = [
         currency_type: 'CAD',
         description: 'Description 6',
         status: 'Cancelled',
-        action: (
-            <Select defaultValue="View" style={{ width: 120 }}>
-                <Option value="Edit">Edit</Option>
-                <Option value="View">View</Option>
-            </Select>
-        ),
         fontSize: 'text-xl',
     },
     {
@@ -120,12 +84,6 @@ export const paymentData = [
         currency_type: 'USD',
         description: 'Description 7',
         status: 'Pending',
-        action: (
-            <Select defaultValue="View" style={{ width: 120 }}>
-                <Option value="Edit">Edit</Option>
-                <Option value="View">View</Option>
-            </Select>
-        ),
         fontSize: 'text-xl',
     },
     {
@@ -138,12 +96,6 @@ export const paymentData = [
         currency_type: 'CAD',
         description: 'Description 8',
         status: 'Paid',
-        action: (
-            <Select defaultValue="View" style={{ width: 120 }}>
-                <Option value="Edit">Edit</Option>
-                <Option value="View">View</Option>
-            </Select>
-        ),
         fontSize: 'text-xl',
     },
 ];
