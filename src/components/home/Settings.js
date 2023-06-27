@@ -297,16 +297,15 @@ const Settings = () => {
                         <Divider className='border-gray-200' />
                         {/* antform */}
                         <div className='flex flex-col w-full gap-y-10'>
-
-
                             <div className='flex flex-col w-full gap-y-6 shadow-md hover:shadow-md p-3 pb-8'>
                                 <div className='w-full flex flex-col gap-y-2'>
                                     <div className="flex">
 
                                         <span className='text-sm'>Mail Encryption</span>
                                     </div>
-                                    <Select defaultValue="" onChange={handleSelectChange}>
-                                        {options.map((option) => (
+
+                                    <Select defaultValue="" onChange={handleSelect1Change}>
+                                        {options1.map((option) => (
                                             <Option key={option.value} value={option.value}>
                                                 {option.label}
                                             </Option>
@@ -318,8 +317,8 @@ const Settings = () => {
 
                                         <span className='text-sm'>Mail Encryption</span>
                                     </div>
-                                    <Select defaultValue="" onChange={handleSelectChange}>
-                                        {options.map((option) => (
+                                    <Select defaultValue="" onChange={handleSelect2Change}>
+                                        {options2.map((option) => (
                                             <Option key={option.value} value={option.value}>
                                                 {option.label}
                                             </Option>
@@ -331,8 +330,8 @@ const Settings = () => {
 
                                         <span className='text-sm'>Mail Encryption</span>
                                     </div>
-                                    <Select defaultValue="" onChange={handleSelectChange}>
-                                        {options.map((option) => (
+                                    <Select defaultValue="" onChange={handleSelect1Change}>
+                                        {options1.map((option) => (
                                             <Option key={option.value} value={option.value}>
                                                 {option.label}
                                             </Option>
@@ -344,8 +343,8 @@ const Settings = () => {
 
                                         <span className='text-sm'>Mail Encryption</span>
                                     </div>
-                                    <Select defaultValue="" onChange={handleSelectChange}>
-                                        {options.map((option) => (
+                                    <Select defaultValue="" onChange={handleSelect3Change}>
+                                        {options3.map((option) => (
                                             <Option key={option.value} value={option.value}>
                                                 {option.label}
                                             </Option>
@@ -360,8 +359,8 @@ const Settings = () => {
 
                                         <span className='text-sm'>Mail Encryption</span>
                                     </div>
-                                    <Select defaultValue="" onChange={handleSelectChange}>
-                                        {options.map((option) => (
+                                    <Select defaultValue="" onChange={handleSelect3Change}>
+                                        {options3.map((option) => (
                                             <Option key={option.value} value={option.value}>
                                                 {option.label}
                                             </Option>
@@ -377,8 +376,8 @@ const Settings = () => {
 
                                         <span className='text-sm'>Mail Encryption</span>
                                     </div>
-                                    <Select defaultValue="" onChange={handleSelectChange}>
-                                        {options.map((option) => (
+                                    <Select defaultValue="" onChange={handleSelect3Change}>
+                                        {options3.map((option) => (
                                             <Option key={option.value} value={option.value}>
                                                 {option.label}
                                             </Option>
