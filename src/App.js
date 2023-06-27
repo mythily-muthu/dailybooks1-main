@@ -6,6 +6,9 @@ import Signin from './components/home/Signin';
 import Signup from './components/home/Signup';
 import Reports from './components/home/Reports';
 import PaymentGrievances from './components/PaymentGrievances';
+import Settings from "./components/home/Settings"
+
+
 
 
 const App = () => (
@@ -17,6 +20,7 @@ const App = () => (
         <Route path="/employee" element={<Employee />} />
         <Route path="/reports" element={<Reports />} />
         <Route path="/paymentgrievances" element={<PaymentGrievances />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
     </BrowserRouter>
 

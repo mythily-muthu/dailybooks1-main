@@ -13,7 +13,9 @@ module.exports = {
         "text-light": "#22314f",
         "light-gray": "rgb(209 213 219)",
         "text-gray": "rgb(75 85 99)",
-        "text-color": "rgb(34 49 79)"
+        "text-color": "rgb(34 49 79)",
+        "nav-grey": "#455a64",
+        "text-green": "#15803d"
       }
     },
   },

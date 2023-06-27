@@ -242,9 +242,6 @@ const PaymentGrievances = () => {
         </Menu>
     }
 
-
-
-
     const showDrawer = () => {
         setOpen(true);
     };
@@ -264,8 +261,6 @@ const PaymentGrievances = () => {
         else {
             return data.filter((item) => filterOptions.includes(item.status))
         }
-
-
     }
 
     useEffect(() => {
